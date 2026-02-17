@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15 Years of Love 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Lobster&family=Indie+Flower:wght@400&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink: #ee9ca7;
+    --deep-pink: #FF5555;
+    --cream: #FFEFEF;
+    --dark: #331717;
+    --brown: #8b6a60;
+  }
+
+  /* ===== LOADER ===== */
+  #loader {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #FF5555 0%, #ee9ca7 50%, #ffd6d6 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+
+  #loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .loader-hearts {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .floating-heart {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: floatHeart linear infinite;
+    opacity: 0.3;
+  }
+
+  @keyframes floatHeart {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.3; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  .loader-ring {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 6px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    position: relative;
+    animation: spin 1s linear infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loader-ring::before {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border-radius: 50%;
+    border: 4px solid rgba(255,255,255,0.15);
+    border-bottom-color: rgba(255,255,255,0.6);
+    animation: spin 1.5s linear infinite reverse;
+  }
+
+  .loader-number {
+    font-family: 'Lobster', cursive;
+    font-size: 5rem;
+    color: #fff;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+    line-height: 1;
+    z-index: 1;
+    min-width: 100px;
+    text-align: center;
+  }
+
+  .loader-label {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    color: rgba(255,255,255,0.85);
+    margin-top: 1.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .loader-final {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  .loader-final.show { display: flex; }
+
+  @keyframes popIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .loader-final .big-num {
+    font-family: 'Lobster', cursive;
+    font-size: 8rem;
+    color: #fff;
+    text-shadow: 5px 5px 0 rgba(0,0,0,0.15), 0 0 40px rgba(255,255,255,0.4);
+    line-height: 1;
+  }
+
+  .loader-final .anni-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.2rem;
+    color: #fff;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  .loader-final .hearts-burst {
+    font-size: 2rem;
+    margin-top: 0.5rem;
+    animation: pulse 0.8s ease infinite alternate;
+  }
+
+  @keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.2); }
+  }
+
+  .loader-counting { display: flex; flex-direction: column; align-items: center; }
+
+  /* ===== PAGE ===== */
+  body {
+    background: #E5E5E5;
+    background-image: url("bg.jpg");
+    min-height: 100vh;
+    font-family: 'Indie Flower', cursive;
+    overflow-x: hidden;
+  }
+
+  .page-header {
+    text-align: center;
+    padding: 3rem 1rem 1.5rem;
+    position: relative;
+  }
+
+  .page-header h1 {
+    font-family: 'Lobster', cursive;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: #FF5555;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.1), 1px 1px 0 #ffc8c8, 2px 2px 0 #ff9696;
+    font-style: italic;
+  }
+
+  .page-header p {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    color: var(--brown);
+    margin-top: 0.5rem;
+  }
+
+  .divider {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--pink);
+    margin: 0.5rem 0 2rem;
+    letter-spacing: 0.3em;
+  }
+
+  /* ===== SCRAPBOOK GRID ===== */
+  .scrapbook {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem 2rem 4rem;
+    position: relative;
+  }
+
+  /* Tape pieces decoration */
+  .tape {
+    position: absolute;
+    width: 60px;
+    height: 22px;
+    background: rgba(255, 220, 150, 0.55);
+    border-left: 1px dashed rgba(200,150,50,0.3);
+    border-right: 1px dashed rgba(200,150,50,0.3);
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .photo-item {
+    position: relative;
+    display: inline-block;
+  }
+
+  .polaroid-wrap {
+    background: #fff;
+    padding: 10px 10px 45px 10px;
+    box-shadow: 3px 3px 15px rgba(0,0,0,0.25), 0 1px 3px rgba(0,0,0,0.15);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .polaroid-wrap:hover {
+    box-shadow: 6px 6px 25px rgba(0,0,0,0.35);
+    z-index: 20;
+  }
+
+  .photo-placeholder {
+    background: linear-gradient(135deg, #ffd6d6 0%, #ffb3b3 50%, #ee9ca7 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    overflow: hidden;
+  }
+
+  .photo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-caption {
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Indie Flower', cursive;
+    font-size: 0.85rem;
+    color: #555;
+    padding: 0 5px;
+  }
+
+  /* Stickers on some photos */
+  .sticker {
+    position: absolute;
+    font-size: 1.5rem;
+    z-index: 15;
+    animation: wobble 3s ease-in-out infinite;
+  }
+
+  @keyframes wobble {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+
+  /* ===== LAYOUT: irregular scrapbook placement ===== */
+  .scrapbook-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px 20px;
+    align-items: start;
+  }
+
+  /* Individual photo styles with different sizes & rotations */
+  .photo-1 .polaroid-wrap { transform: rotate(-4deg); }
+  .photo-1 .polaroid-wrap:hover { transform: rotate(-4deg) scale(1.05); }
+  .photo-1 .photo-placeholder { width: 260px; height: 200px; }
+
+  .photo-2 .polaroid-wrap { transform: rotate(3deg); margin-top: 20px; }
+  .photo-2 .polaroid-wrap:hover { transform: rotate(3deg) scale(1.05); }
+  .photo-2 .photo-placeholder { width: 240px; height: 230px; }
+
+  .photo-3 .polaroid-wrap { transform: rotate(-2deg); margin-top: -10px; }
+  .photo-3 .polaroid-wrap:hover { transform: rotate(-2deg) scale(1.05); }
+  .photo-3 .photo-placeholder { width: 260px; height: 190px; }
+
+  .photo-4 .polaroid-wrap { transform: rotate(5deg); margin-top: 10px; }
+  .photo-4 .polaroid-wrap:hover { transform: rotate(5deg) scale(1.05); }
+  .photo-4 .photo-placeholder { width: 250px; height: 220px; }
+
+  .photo-5 .polaroid-wrap { transform: rotate(-6deg); margin-top: -20px; }
+  .photo-5 .polaroid-wrap:hover { transform: rotate(-6deg) scale(1.05); }
+  .photo-5 .photo-placeholder { width: 270px; height: 200px; }
+
+  .photo-6 .polaroid-wrap { transform: rotate(2deg); margin-top: 15px; }
+  .photo-6 .polaroid-wrap:hover { transform: rotate(2deg) scale(1.05); }
+  .photo-6 .photo-placeholder { width: 240px; height: 240px; }
+
+  .photo-7 .polaroid-wrap { transform: rotate(-3deg); }
+  .photo-7 .polaroid-wrap:hover { transform: rotate(-3deg) scale(1.05); }
+  .photo-7 .photo-placeholder { width: 255px; height: 210px; }
+
+  .photo-8 .polaroid-wrap { transform: rotate(7deg); margin-top: -15px; }
+  .photo-8 .polaroid-wrap:hover { transform: rotate(7deg) scale(1.05); }
+  .photo-8 .photo-placeholder { width: 245px; height: 195px; }
+
+  .photo-9 .polaroid-wrap { transform: rotate(-4deg); margin-top: 10px; }
+  .photo-9 .polaroid-wrap:hover { transform: rotate(-4deg) scale(1.05); }
+  .photo-9 .photo-placeholder { width: 260px; height: 220px; }
+
+  /* Tape strips on photos */
+  .photo-item::before {
+    content: '';
+    position: absolute;
+    width: 55px;
+    height: 20px;
+    background: rgba(255, 230, 150, 0.6);
+    z-index: 20;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+    border-left: 1px dashed rgba(200,150,50,0.25);
+    border-right: 1px dashed rgba(200,150,50,0.25);
+  }
+
+  .photo-2::before { transform: translateX(-50%) rotate(5deg); top: 10px; left: 30%; }
+  .photo-4::before { transform: translateX(-50%) rotate(-6deg); left: 70%; }
+  .photo-6::before { transform: translateX(-50%) rotate(4deg); top: 5px; }
+  .photo-8::before { transform: translateX(-50%) rotate(-2deg); top: -5px; left: 40%; }
+
+  /* Doodle lines background */
+  .scrapbook::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(200,150,150,0.07) 28px, rgba(200,150,150,0.07) 29px);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* ===== FOOTER ===== */
+  .page-footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.3rem;
+    color: var(--brown);
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-top: 1rem;
+    background: linear-gradient(to bottom, #FF5555, #FF7777);
+    color: #fff;
+    font-family: 'Lobster', cursive;
+    font-style: italic;
+    font-size: 1.2rem;
+    padding: 0.6em 1.4em;
+    text-decoration: none;
+    border-radius: 4px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .back-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 14px rgba(0,0,0,0.25);
+  }
+
+  /* ===== LIGHTBOX ===== */
+  #lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  #lightbox.active { display: flex; }
+
+  #lightbox-inner {
+    background: #fff;
+    padding: 15px 15px 60px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    max-width: 90vw;
+    max-height: 90vh;
+    position: relative;
+    transform: rotate(-1deg);
+    animation: lightboxPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  @keyframes lightboxPop {
+    from { transform: rotate(-1deg) scale(0.8); opacity: 0; }
+    to { transform: rotate(-1deg) scale(1); opacity: 1; }
+  }
+
+  #lightbox-inner img, #lightbox-inner .lb-placeholder {
+    display: block;
+    max-width: 70vw;
+    max-height: 70vh;
+    min-width: 300px;
+    min-height: 250px;
+  }
+
+  .lb-placeholder {
+    background: linear-gradient(135deg, #ffd6d6, #ee9ca7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    width: 400px;
+    height: 300px;
+  }
+
+  #lightbox-caption {
+    position: absolute;
+    bottom: 15px;
+    left: 0; right: 0;
+    text-align: center;
+    font-family: 'Indie Flower', cursive;
+    font-size: 1.1rem;
+    color: #555;
+  }
+
+  /* Page entrance animation */
+  .photo-item {
+    opacity: 0;
+    animation: fadeSlideIn 0.6s ease forwards;
+  }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .photo-1 { animation-delay: 0.1s; }
+  .photo-2 { animation-delay: 0.2s; }
+  .photo-3 { animation-delay: 0.3s; }
+  .photo-4 { animation-delay: 0.4s; }
+  .photo-5 { animation-delay: 0.5s; }
+  .photo-6 { animation-delay: 0.6s; }
+  .photo-7 { animation-delay: 0.7s; }
+  .photo-8 { animation-delay: 0.8s; }
+  .photo-9 { animation-delay: 0.9s; }
+
+  @media (max-width: 768px) {
+    .scrapbook-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 10px; }
+    .photo-1 .photo-placeholder,
+    .photo-2 .photo-placeholder,
+    .photo-3 .photo-placeholder,
+    .photo-4 .photo-placeholder,
+    .photo-5 .photo-placeholder,
+    .photo-6 .photo-placeholder,
+    .photo-7 .photo-placeholder,
+    .photo-8 .photo-placeholder,
+    .photo-9 .photo-placeholder { width: 100%; height: 160px; }
+    .polaroid-wrap { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== LOADER ===== -->
+<div id="loader">
+  <div class="loader-hearts" id="heartsContainer"></div>
+
+  <div class="loader-counting" id="loaderCounting">
+    <div class="loader-ring">
+      <div class="loader-number" id="loaderNum">1</div>
+    </div>
+    <div class="loader-label" id="loaderLabel">Year of love...</div>
+  </div>
+
+  <div class="loader-final" id="loaderFinal">
+    <div class="big-num">15</div>
+    <div class="anni-text">Happy 15th Anniversary!</div>
+    <div class="hearts-burst">💕 🎂 💕</div>
+  </div>
+</div>
+
+<!-- ===== MAIN PAGE ===== -->
+<div id="mainPage" style="opacity:0; transition: opacity 0.6s ease;">
+
+  <div class="page-header">
+    <h1>15 Years of Beautiful Memories</h1>
+    <p>A little scrapbook of moments we treasure forever 💕</p>
+    <div class="divider">❤ ❤ ❤</div>
+  </div>
+
+  <div class="scrapbook">
+    <div class="scrapbook-grid">
+
+      <!-- Photo 1 -->
+      <div class="photo-item photo-1" onclick="openLightbox(1, 'The beginning of forever 💍')">
+        <div class="polaroid-wrap">
+          <div class="photo-placeholder" style="width:260px;height:200px;">
+            <img src="photo1.jpg" alt="Memory 1" onerror="this.style.display='none'; this.nextSibling.style.display='flex'">
+            <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3rem;">💍</span>
+          </div>
+          <div class="photo-caption">The beginning of forever 💍</div>
+        </div>
+        <div class="sticker" style="top:-15px; right:10px; transform:rotate(15deg);">⭐</div>
+      </div>
+
+      <!-- Photo 2 -->
+      <div class="photo-item photo-2" onclick="openLightbox(2, 'Together is our favourite place 🏡')">
+        <div class="polaroid-wrap">
+          <div class="photo-placeholder" style="width:240px;height:230px;">
+            <img src="photo2.jpg" alt="Memory 2" onerror="this.style.display='none'; this.nextSibling.style.display='flex'">
+            <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3rem;">🏡</span>
+          </div>
+          <div class="photo-caption">Together is our favourite place 🏡</div>
+        </div>
+      </div>
+
+      <!-- Photo 3 -->
+      <div class="photo-item photo-3" onclick="openLightbox(3, 'Joy multiplied 👨‍👩‍👧‍👦')">
+        <div class="polaroid-wrap">
+          <div class="photo-placeholder" style="width:260px;height:190px;">
+            <img src="photo3.jpg" alt="Memory 3" onerror="this.style.display='none'; this.nextSibling.style.display='flex'">
+            <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3rem;">👨‍👩‍👧‍👦</span>
+          </div>
+          <div class="photo-caption">Joy multiplied 👨‍👩‍👧‍👦</div>
+        </div>
+        <div class="sticker" style="bottom:-5px; left:5px; transform:rotate(-10deg);">🌟</div>
+      </div>
+
+      <!-- Photo 4 -->
+      <div class="photo-item photo-4" onclick="openLightbox(4, 'Adventures together 🌍')">
+        <div class="polaroid-wrap">
+          <div class="photo-placeholder" style="width:250px;height:220px;">
+            <img src="photo4.jpg" alt="Memory 4" onerror="this.style.display='none'; this.nextSibling.style.display='flex'">
+            <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3rem;">🌍</span>
+          </div>
+          <div class="photo-caption">Adventures together 🌍</div>
+        </div>
+      </div>
+
+      <!-- Photo 5 — centre, larger, special -->
+      <div class="photo-item photo-5" onclick="openLightbox(5, '15 years of smiles 💕')">
+        <div class="polaroid-wrap" style="background: #fff8f8; border: 3px solid #ffcdd2;">
+          <div class="photo-placeholder" style="width:270px;height:200px;">
+            <img src="photo5.jpg" alt="Memory 5" onerror="this.style.display='none'; this.nextSibling.style.display='flex'">
+            <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3rem;">💕</span>
+          </div>
+          <div class="photo-caption" style="font-size:1rem; color:#FF5555; font-weight:bold;">15 years of smiles 💕</div>
+        </div>
+        <div class="sticker" style="top:-20px; right:-10px; transform:rotate(20deg); font-size:2rem;">❤️</div>
+      </div>
+
+      <!-- Photo 6 -->
+      <div class="photo-item photo-6" onclick="openLightbox(6, 'Celebrations & milestones 🎉')">
+        <div class="polaroid-wrap">
+          <div class="photo-placeholder" style="width:240px;height:240px;">
+            <img src="photo6.jpg" alt="Memory 6" onerror="this.style.display='none'; this.nextSibling.style.display='flex'">
+            <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3rem;">🎉</span>
+          </div>
+          <div class="photo-caption">Celebrations & milestones 🎉</div>
+        </div>
+      </div>
+
+      <!-- Photo 7 -->
+      <div class="photo-item photo-7" onclick="openLightbox(7, 'Laughter is our love language 😄')">
+        <div class="polaroid-wrap">
+          <div class="photo-placeholder" style="width:255px;height:210px;">
+            <img src="photo7.jpg" alt="Memory 7" onerror="this.style.display='none'; this.nextSibling.style.display='flex'">
+            <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3rem;">😄</span>
+          </div>
+          <div class="photo-caption">Laughter is our love language 😄</div>
+        </div>
+      </div>
+
+      <!-- Photo 8 -->
+      <div class="photo-item photo-8" onclick="openLightbox(8, 'Growing together, always 🌸')">
+        <div class="polaroid-wrap">
+          <div class="photo-placeholder" style="width:245px;height:195px;">
+            <img src="photo8.jpg" alt="Memory 8" onerror="this.style.display='none'; this.nextSibling.style.display='flex'">
+            <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3rem;">🌸</span>
+          </div>
+          <div class="photo-caption">Growing together, always 🌸</div>
+        </div>
+        <div class="sticker" style="bottom:0; right:-10px; transform:rotate(5deg);">💫</div>
+      </div>
+
+      <!-- Photo 9 -->
+      <div class="photo-item photo-9" onclick="openLightbox(9, 'Here\'s to forever more 🥂')">
+        <div class="polaroid-wrap">
+          <div class="photo-placeholder" style="width:260px;height:220px;">
+            <img src="photo9.jpg" alt="Memory 9" onerror="this.style.display='none'; this.nextSibling.style.display='flex'">
+            <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3rem;">🥂</span>
+          </div>
+          <div class="photo-caption">Here's to forever more 🥂</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <p>Made with ❤️ for the most wonderful parents</p>
+    <br>
+    <a href="index.html" class="back-link">← Back to the Card</a>
+  </div>
+</div>
+
+<!-- ===== LIGHTBOX ===== -->
+<div id="lightbox" onclick="closeLightbox()">
+  <div id="lightbox-inner" onclick="event.stopPropagation()">
+    <div id="lightbox-img" class="lb-placeholder">💕</div>
+    <div id="lightbox-caption"></div>
+  </div>
+</div>
+
+<script>
+  // ===== FLOATING HEARTS in loader =====
+  const heartsContainer = document.getElementById('heartsContainer');
+  const emojis = ['❤️','💕','💖','💗','💝','🌸','✨'];
+  for (let i = 0; i < 20; i++) {
+    const h = document.createElement('span');
+    h.className = 'floating-heart';
+    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.animationDuration = (4 + Math.random() * 6) + 's';
+    h.style.animationDelay = (Math.random() * 4) + 's';
+    heartsContainer.appendChild(h);
+  }
+
+  // ===== COUNTDOWN =====
+  const loaderNum = document.getElementById('loaderNum');
+  const loaderLabel = document.getElementById('loaderLabel');
+  const loaderCounting = document.getElementById('loaderCounting');
+  const loaderFinal = document.getElementById('loaderFinal');
+  const loader = document.getElementById('loader');
+  const mainPage = document.getElementById('mainPage');
+
+  const labels = [
+    'Year of love...', 'Years of smiles...', 'Years of laughter...',
+    'Years of adventures...', 'Years of joy...', 'Years of memories...',
+    'Years of togetherness...', 'Years of growing...', 'Years of family...',
+    'Years of dreams shared...', 'Years of sunshine...', 'Years of strength...',
+    'Years of beautiful moments...', 'Years of forever...', '🎉 15th Anniversary! 🎉'
+  ];
+
+  let count = 1;
+  const interval = setInterval(() => {
+    loaderNum.textContent = count;
+    loaderLabel.textContent = labels[count - 1] || 'Years of love...';
+
+    // Bump animation
+    loaderNum.style.transform = 'scale(1.3)';
+    setTimeout(() => { loaderNum.style.transform = 'scale(1)'; loaderNum.style.transition = 'transform 0.2s'; }, 150);
+
+    if (count >= 15) {
+      clearInterval(interval);
+      setTimeout(() => {
+        loaderCounting.style.display = 'none';
+        loaderFinal.classList.add('show');
+
+        // After showing final screen, fade out loader
+        setTimeout(() => {
+          loader.classList.add('hidden');
+          mainPage.style.opacity = '1';
+        }, 2200);
+      }, 400);
+    }
+    count++;
+  }, 220);
+
+  // ===== LIGHTBOX =====
+  const captions = [
+    '', 
+    'The beginning of forever 💍',
+    'Together is our favourite place 🏡',
+    'Joy multiplied 👨‍👩‍👧‍👦',
+    'Adventures together 🌍',
+    '15 years of smiles 💕',
+    'Celebrations & milestones 🎉',
+    'Laughter is our love language 😄',
+    'Growing together, always 🌸',
+    "Here's to forever more 🥂"
+  ];
+
+  const photoEmojis = ['','💍','🏡','👨‍👩‍👧‍👦','🌍','💕','🎉','😄','🌸','🥂'];
+
+  function openLightbox(num, caption) {
+    const lb = document.getElementById('lightbox');
+    const imgEl = document.getElementById('lightbox-img');
+    const capEl = document.getElementById('lightbox-caption');
+
+    const img = new Image();
+    img.src = 'photo' + num + '.jpg';
+    img.style.maxWidth = '70vw';
+    img.style.maxHeight = '70vh';
+    img.style.display = 'block';
+
+    img.onload = () => {
+      imgEl.innerHTML = '';
+      imgEl.appendChild(img);
+    };
+    img.onerror = () => {
+      imgEl.className = 'lb-placeholder';
+      imgEl.textContent = photoEmojis[num] || '💕';
+    };
+
+    capEl.textContent = caption;
+    lb.classList.add('active');
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+</body>
+</html>
